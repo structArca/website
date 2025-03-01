@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOMContentLoaded ƒCƒxƒ“ƒg‚ª”­¶‚µ‚Ü‚µ‚½");
-    // ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÌƒpƒX
+    console.log("DOMContentLoaded ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ã¾ã—ãŸ");
+    // ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
     const filePath = 'https://structarca.github.io/website/data.txt';
 
-    // Fetch API‚ðŽg—p‚µ‚ÄƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ð“Ç‚Ýž‚Þ
+    // Fetch APIã‚’ä½¿ç”¨ã—ã¦ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
     fetch(filePath)
         .then(response => response.text())
         .then(text => {
-            // ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚Ì“à—e‚ð•\Ž¦‚·‚é
+            // ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã‚’è¡¨ç¤ºã™ã‚‹
             document.getElementById('content').textContent = text;
         })
         .catch(error => console.error('Error:', error));
