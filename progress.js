@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOMContentLoaded イベントが発生しました");
     // テキストファイルのパス
-    const filePath = 'data.txt';
+    const filePath = 'https://structarca.github.io/website/data.txt';
 
     // Fetch APIを使用してテキストファイルを読み込む
     fetch(filePath)
