@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log("DOMContentLoaded イベントが発生しました");
 
     // GitHub Pagesでホスティングされているファイルパス
-    const filePath = 'https://username.github.io/repository-name/data.txt'; // 実際のURLに置き換えてください
+    const filePath = 'https://structarca.github.io/website/data.txt'; // 実際のURLに置き換えてください
 
     fetch(filePath)
         .then(response => {
