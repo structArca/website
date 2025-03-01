@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOMContentLoaded イベントが発生しました");
     // テキストファイルのパス
-    const filePath = 'D:\\data\\Aruca=CIAN\\Arca\\github\\website\\data.txt';
+    const filePath = 'data.txt';
 
     // Fetch APIを使用してテキストファイルを読み込む
     fetch(filePath)
