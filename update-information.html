@@ -4,8 +4,8 @@
         <meta charset = "UTF-8">
         <script type = "text/javascript">
 
-            /*0¶‹l‚ß*/
-            function Left0(digit, n, spaceChar/*‹l‚ß•¶š*/ = 0){
+            /*0å·¦è©°ã‚*/
+            function Left0(digit, n, spaceChar/*è©°ã‚æ–‡å­—*/ = 0){
                 const nStr = new String(n);
                 var space = "";
                 if(digit > nStr.length){
@@ -16,11 +16,11 @@
                 return space + nStr;
             }
 
-            /*Date‚ğ”NŒ“ú•\‹L‚Ö*/
+            /*Dateã‚’å¹´æœˆæ—¥è¡¨è¨˜ã¸*/
             function ShowDate(_d){
                 var d = new Date(_d);
-                const days = ["“ú", "Œ", "‰Î", "…", "–Ø", "‹à", "“y"];
-                document.write((1900+d.getYear()) + "”N " +  Left0(2, 1+d.getMonth()) + "Œ " + Left0(2, d.getDate()) + "“ú (" + days[d.getDay()] + ") " + Left0(2, d.getHours()) + ":" + Left0(2, d.getMinutes()));
+                const days = ["æ—¥", "æœˆ", "ç«", "æ°´", "æœ¨", "é‡‘", "åœŸ"];
+                document.write((1900+d.getYear()) + "å¹´ " +  Left0(2, 1+d.getMonth()) + "æœˆ " + Left0(2, d.getDate()) + "æ—¥ (" + days[d.getDay()] + ") " + Left0(2, d.getHours()) + ":" + Left0(2, d.getMinutes()));
             }
 
         </script>
@@ -28,9 +28,9 @@
     <body>            
         
 
-        <!--ƒtƒbƒ^[-->
+        <!--ãƒ•ãƒƒã‚¿ãƒ¼-->
             <footer><small>
-                ÅIXV : 
+                æœ€çµ‚æ›´æ–° : 
                 <script type = "text/javascript">
                     ShowDate(document.lastModified);
                 </script>
