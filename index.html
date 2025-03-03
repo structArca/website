@@ -1,33 +1,88 @@
 <!DOCTYPE html>
 <html lang = "ja">
     <head>
-        <meta charset="UTF-8">
+        <meta charset = "UTF-8">
         <meta
-            name = "description" content = "",
-            name = "author", content = "Arca::広報",
-            name = "keywords", content = "Arca,structArca,Arca構\造体"
+            name = "description" content = "Arca::ホームページ",
+            name = "author", content = "struct Arca",
+            name = "keywords", content = "Arca,structArca,Arca構造体"
         >
+        <script type = "text/javascript">
 
-        <link rel = "icon", href = "image/icon.png">
+            /*0左詰め*/
+            function Left0(digit, n, spaceChar/*詰め文字*/ = 0){
+                const nStr = new String(n);
+                var space = "";
+                if(digit > nStr.length){
+                    for(i = 0; i < digit - nStr.length; i++){
+                        space += spaceChar;
+                    }
+                }
+                return space + nStr;
+            }
 
-        <title>Arca::Website::Top</title>
+            /*Dateを年月日表記へ*/
+            function ShowDate(_d){
+                var d = new Date(_d);
+                const days = ["日", "月", "火", "水", "木", "金", "土"];
+                document.write((1900+d.getYear()) + "年 " +  Left0(2, 1+d.getMonth()) + "月 " + Left0(2, d.getDate()) + "日 (" + days[d.getDay()] + ") " + Left0(2, d.getHours()) + ":" + Left0(2, d.getMinutes()));
+            }
+
+            function ShowLinks(){
+                const links = [
+                    "ニコニコ動画", "https://www.nicovideo.jp/user/124335584",
+                    "github", "https://github.com/structArca"
+                ];
+
+                document.write("<h3>外部リンク</h3><br><ul>");
+
+                for(i = 0; i < links.length; i+=2){
+                    document.write("<li>" + links[i] + " : <a href = \"" + links[i+1] + "\" target = \"" + links[i] + "\">" + links[i+1] + "</a><br></li>\n");
+                }
+            }
+        </script>
     </head>
-    <!---->
-    <body>
-        <h1>Arca</h1>
-        <ul>
-            <li><a href = "progress.html">動静</a></li>
-            <li></li>
-        </ul>
+    <body>            
+        <!--ヘッダー-->
+            <h2 style = "
+                position: relative;
+                top: 2vh;
+                left: 5vw;
+            ">
+                Arca
+            </h2><br>
+        <div style = "
+            position: relative;
+            top: 2vh;
+            left: 10vw;
+        ">
+        
+        <!--更新情報-->
+            <h3>更新情報</h3>
+            <a href = "update-information.html" target = "Arca - 更新情報">
+                <ul>
+                    <li>開く</li>
+                </ul>
+            </a>
 
-        <footer>
-            <small>
-                <p>
-                    最終更新 : 年月日
-                </p><p>
-                    (C)opyright © 2025 struct Arca All rights reserved.
-                </p>
-            </small>
-        </footer>
+        <!--外部リンク-->
+            <script type = "text/javascript">
+                ShowLinks();
+            </script>
+
+        <!--フッター-->
+            <footer><small style = "
+                position: relative;
+                top: 15vh;
+                bottom: 5vh;
+            ">
+                最終更新 : 
+                <script type = "text/javascript">
+                    ShowDate(document.lastModified);
+                </script>
+                <br>
+                Copyright © 2025 struct Arca All rights reserved.
+            </small></footer>
+        </div>
     </body>
 </html>
