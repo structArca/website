@@ -24,6 +24,7 @@ function htmlDefFooter(){
     document.write("最終更新 : ");
     ShowDate(document.lastModified);
     document.write("<br>\nCopyright © 2025 struct Arca All rights reserved.");
+    document.write("<br>\n作品番号 : 20250302a");
     document.write('\
         </small></footer>\
     ');
