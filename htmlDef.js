@@ -7,8 +7,8 @@ function htmlDefHaeder(){
             name = "author", content = "struct Arca",\
             name = "keywords", content = "Arca,structArca,Arca構造体"\
         ></meta>\
-        <link\
-            rel = "icon" href = "https://structarca.github.io/website/common/icon.png" size = "1080x1080" type = "image/png">\
+        <link \
+            rel = "icon" href = "https://structarca.github.io/website/common/icon.png" type = "image/png">\
     ');
 };
 
