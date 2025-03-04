@@ -8,7 +8,7 @@ function htmlDefHaeder(){
             name = "keywords", content = "Arca,structArca,Arca構造体"\
         ></meta>\
         <link\
-            rel = "common/icon.png">\
+            rel = "icon" href = "common/icon.png" size = "1080x1080" type = "image/png">\
     ');
 };
 
