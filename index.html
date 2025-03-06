@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang = "ja">
     <head>
-        <script type = "module">
-            import JSDef from "./JSDef.js";
-            JSDef.htmlDefHeader();
+        <script src = "JSDef.js" type = "text/javascript">
+            htmlDefHeader();
         </script>
     </head>
     <body>            
@@ -31,22 +30,19 @@
 
         <!--更新情報-->
             <h3>更新情報</h3>
-            <a target = "Arca - 特別報">
-                <ul>
-                    <li>開く</li>
-                </ul>
-            </a>
+            <div id = "special-report_main"></div>
+            <script src = "special-report.js" type = "text/javascript">
+                ShowSpecialReport("https://structarca.github.io/website/special-report.txt", "special-report_main");
+            </script>
 
         <!--外部リンク-->
-        <script type = "module">
-            import JSDef from "./JSDef.js";
-                JSDef.ShowLinks();
+            <script type = "text/javascript">
+                ShowLinks();
             </script>
 
         <!--フッター-->
-        <script type = "module">
-            import JSDef from "./JSDef.js";
-                JSDef.htmlDefFooter();
+            <script type = "text/javascript">
+                htmlDefFooter();
             </script>
         </div>
     </body>

@@ -1,11 +1,11 @@
-const JSDef = {
 /*エラーテキスト変換*/
-MSG_ERROR: function(func, line){
-    return "処理失敗(開発者エラー)[JSDef.js / " + func + line + "]";
-},
+export function MSG_ERROR(file = "", func = "", line = ""){
+    return "処理失敗(開発者エラー)[" + file + " / " + func + " / " +  line + "]";
+};
+
 /*ヘッダ*/
-htmlDefHaeder: function(){
-    document.write('\
+function htmlDefHaeder(){
+    alert('\
         <meta charset = "UTF-8">\
         <meta \
             name = "description" content = "Arca::ホームページ",\
@@ -15,10 +15,10 @@ htmlDefHaeder: function(){
         <link \
             rel = "icon" href = "https://structarca.github.io/website/common/icon.png" sizes = "1080x1080" type = "image/png">\
     ');
-},
+};
 
 /*フッタ*/
-htmlDefFooter: function(){
+function htmlDefFooter(){
     document.write('\
         <footer><small style = "\
         position: relative;\
@@ -33,10 +33,10 @@ htmlDefFooter: function(){
     document.write('\
         </small></footer>\
     ');
-},
+};
 
 /*0左詰め*/
-Left0: function(digit, n, spaceChar/*詰め文字*/ = 0){
+function Left0(digit, n, spaceChar/*詰め文字*/ = 0){
     const nStr = new String(n);
     var space = "";
     if(digit > nStr.length){
@@ -45,17 +45,21 @@ Left0: function(digit, n, spaceChar/*詰め文字*/ = 0){
         }
     }
     return space + nStr;
-},
+};
 
 /*Dateを年月日表記へ*/
-ShowDate: function (_d){
+function DateToString(_d){
     var d = new Date(_d);
     const days = ["日", "月", "火", "水", "木", "金", "土"];
-    document.write((1900+d.getYear()) + "年 " +  Left0(2, 1+d.getMonth()) + "月 " + Left0(2, d.getDate()) + "日 (" + days[d.getDay()] + ") " + Left0(2, d.getHours()) + ":" + Left0(2, d.getMinutes()));
-},
+    return ((1900+d.getYear()) + "年 " +  Left0(2, 1+d.getMonth()) + "月 " + Left0(2, d.getDate()) + "日 (" + days[d.getDay()] + ") " + Left0(2, d.getHours()) + ":" + Left0(2, d.getMinutes()));
+};
+
+export function ShowDate(_d){
+    document.write(DateToString(_d));
+};
 
 /*外部リンク*/
-ShowLinks: function(){
+function ShowLinks(){
     const links = [
         "ニコニコ動画", "https://www.nicovideo.jp/user/124335584",
         "github", "https://github.com/structArca"
@@ -66,10 +70,10 @@ ShowLinks: function(){
     for(i = 0; i < links.length; i+=2){
         document.write("<li>" + links[i] + " : <a href = \"" + links[i+1] + "\" target = \"" + links[i] + "\">" + links[i+1] + "</a><br></li>\n");
     }
-},
+};
 
 /*外部ファイル取得(テキスト状態で)*/
-GetTextByFile: function(filePath, passArgu, callFunc = null){
+export function GetTextByFile(filePath, passArgu, callFunc = null){
     var xmlHR = new XMLHttpRequest();
     xmlHR.open("GET", filePath, true);
     xmlHR.onreadystatechange = function (){
@@ -80,7 +84,7 @@ GetTextByFile: function(filePath, passArgu, callFunc = null){
                 }else if(callFunc){
                     callFunc(xmlHR.responseText);
                 }else{
-                    document.write(JSDef.MSG_ERROR("GetTextByFile"));
+                    document.write(MSG_ERROR("JSDef.js", "GetTextByFile"));
                 }
             }else{
                 passArgu = "読み込みに失敗しました。";
@@ -88,13 +92,10 @@ GetTextByFile: function(filePath, passArgu, callFunc = null){
         }
     };
     xmlHR.send();
-},
-
-/*外部ファイル取得(htmlからcontentIDへ)*/
-ShowFile: function(filePath, contentID){
-    document.getElementById(contentID).innerText = "読み込み中です...";
-    this.GetTextByFile(filePath, document.getElementById(contentID).innerText);
-},
 };
 
-export default JSDef;
+/*外部ファイル取得(htmlからcontentIDへ)*/
+function ShowFile(filePath, contentID){
+    document.getElementById(contentID).innerText = "読み込み中です...";
+    this.GetTextByFile(filePath, document.getElementById(contentID).innerText);
+};
