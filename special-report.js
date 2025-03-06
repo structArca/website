@@ -1,6 +1,6 @@
-import GetTextByFile from "JSDef.js";
-import ShowDate from "JSDef.js";
-import MSG_ERROR from "JSDef.js";
+import GetTextByFile from "./JSDef.js";
+import ShowDate from "./JSDef.js";
+import MSG_ERROR from "./JSDef.js";
 
 var contentIDSave; "";
 
