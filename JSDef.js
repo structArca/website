@@ -73,14 +73,14 @@ function ShowLinks(){
 };
 
 /*外部ファイル取得(テキスト状態で)*/
-function GetTextByFile(filePath, passArgu, callFunc = null){
+function GetTextByFile(filePath, contentID, callFunc = null){
     var xmlHR = new XMLHttpRequest();
     xmlHR.open("GET", filePath, true);
     xmlHR.onreadystatechange = function (){
         if(xmlHR.readyState === 4){
             if(xmlHR.status === 200){
-                if(passArgu != null){
-                    passArgu = xmlHR.responseText;
+                if(contentID != null){
+                    document.getElementById(contentID).innerText = xmlHR.responseText;
                 }else if(callFunc != null){
                     callFunc(xmlHR.responseText);
                 }else{
@@ -97,5 +97,5 @@ function GetTextByFile(filePath, passArgu, callFunc = null){
 /*外部ファイル取得(htmlからcontentIDへ)*/
 function ShowFile(filePath, contentID){
     document.getElementById(contentID).innerText = "読み込み中です...";
-    this.GetTextByFile(filePath, document.getElementById(contentID).innerText);
+    this.GetTextByFile(filePath, contentID);
 };

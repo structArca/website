@@ -1,4 +1,3 @@
-var contentIDSave =  "";
 
 /*描画*/
 function DrawSpecialReport(resourceText)
@@ -22,34 +21,49 @@ function DrawSpecialReport(resourceText)
 
     const src = String(resourceText);
 
-    document.getElementById(contentIDSave).innerText = resourceText;
-    // var dest = "";
-    return;
+    document.getElementById(contentIDSave).innerHTML = "読み込み中...";
+    var dest = "";
 
     for(i = 0, j = 0, n = 0, iStart = 0; i < src.length; i++){
-        dest += "a"
-        /*
-        if(src[i] == '\n'){
-            n++;
-            j = 0;
-            iStart = i+1;
-
-            dest += "<h4>" + data[1] + "</h4><p>" + (data[3] ? data[3] : "") + "</p><a href = " + data[2] + " target = " + data[1] +
-                " >" + data[2] + "</a><br><small> " + ShowDate(data[0]) + "</small><br><br>";
-            for(j = 0; j < dataLength; j++){
-                data[j] = "";
-            }
-        }else if(src[j] == ','){
+        if(src[i] == ',' || src[i] == '\n'){
             data[j] = src.slice(iStart, i);
             j++;
             if(j >= dataLength){
                 MSG_ERROR("Special-Report.js", "DrawSpecialReport()", "dataLengthが短いままです");
             }
             iStart = i+1;
-        }*/
+        }
+
+        if(src[i] == '\n'){
+            n++;
+            j = 0;
+            iStart = i+1;
+
+            if(data[1] == ""){
+                data[1] = "無題"
+            }
+            dest += "<h4>" + data[1] + "</h4>";
+            if(data[3] == ""){
+            }else{
+                dest += "<p>" + data[3] + "</p>";
+            }
+            if(data[2] == ""){
+            }else{
+                dest += "<a href = \"" + data[2] + "\" target = \"" + data[1] + "\" >" + data[2] + "</a><br>";
+            }
+            if(data[0] == ""){
+            }else{
+                dest += "<small> " + data[0] + "</small>";
+            }
+            dest += "<br><br>";
+
+            for(j = 0; j < dataLength; j++){
+                data[j] = "";
+            }
+        }
     }
 
-    document.getElementById(contentIDSave).innerText = dest;
+    document.getElementById(contentIDSave).innerHTML = dest;
 };
 
 /*ファイル読み込ませ、Drawを呼び出させる*/
