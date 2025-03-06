@@ -79,9 +79,9 @@ function GetTextByFile(filePath, passArgu, callFunc = null){
     xmlHR.onreadystatechange = function (){
         if(xmlHR.readyState === 4){
             if(xmlHR.status === 200){
-                if(passArgu){
+                if(passArgu != null){
                     passArgu = xmlHR.responseText;
-                }else if(callFunc){
+                }else if(callFunc != null){
                     callFunc(xmlHR.responseText);
                 }else{
                     document.write(MSG_ERROR("JSDef.js", "GetTextByFile"));

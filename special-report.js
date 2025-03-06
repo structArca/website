@@ -22,7 +22,7 @@ function DrawSpecialReport(resourceText)
 
     let src = String(resourceText);
 
-    document.getElementById(contentIDSave).innerHTML = "読み込み成功";
+    document.getElementById(contentIDSave).innerHTML = resourceText;
     return;
 
     for(i = 0, j = 0, n = 0, iStart = 0; i < src.length; i++){
