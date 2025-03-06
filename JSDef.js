@@ -1,5 +1,10 @@
+const JSDef = {
+/*エラーテキスト変換*/
+MSG_ERROR: function(func, line){
+    return "処理失敗(開発者エラー)[JSDef.js / " + func + line + "]";
+},
 /*ヘッダ*/
-function htmlDefHaeder(){
+htmlDefHaeder: function(){
     document.write('\
         <meta charset = "UTF-8">\
         <meta \
@@ -10,10 +15,10 @@ function htmlDefHaeder(){
         <link \
             rel = "icon" href = "https://structarca.github.io/website/common/icon.png" sizes = "1080x1080" type = "image/png">\
     ');
-};
+},
 
 /*フッタ*/
-function htmlDefFooter(){
+htmlDefFooter: function(){
     document.write('\
         <footer><small style = "\
         position: relative;\
@@ -28,10 +33,10 @@ function htmlDefFooter(){
     document.write('\
         </small></footer>\
     ');
-};
+},
 
 /*0左詰め*/
-function Left0(digit, n, spaceChar/*詰め文字*/ = 0){
+Left0: function(digit, n, spaceChar/*詰め文字*/ = 0){
     const nStr = new String(n);
     var space = "";
     if(digit > nStr.length){
@@ -40,17 +45,17 @@ function Left0(digit, n, spaceChar/*詰め文字*/ = 0){
         }
     }
     return space + nStr;
-}
+},
 
 /*Dateを年月日表記へ*/
-function ShowDate(_d){
+ShowDate: function (_d){
     var d = new Date(_d);
     const days = ["日", "月", "火", "水", "木", "金", "土"];
     document.write((1900+d.getYear()) + "年 " +  Left0(2, 1+d.getMonth()) + "月 " + Left0(2, d.getDate()) + "日 (" + days[d.getDay()] + ") " + Left0(2, d.getHours()) + ":" + Left0(2, d.getMinutes()));
-}
+},
 
 /*外部リンク*/
-function ShowLinks(){
+ShowLinks: function (){
     const links = [
         "ニコニコ動画", "https://www.nicovideo.jp/user/124335584",
         "github", "https://github.com/structArca"
@@ -61,21 +66,35 @@ function ShowLinks(){
     for(i = 0; i < links.length; i+=2){
         document.write("<li>" + links[i] + " : <a href = \"" + links[i+1] + "\" target = \"" + links[i] + "\">" + links[i+1] + "</a><br></li>\n");
     }
-}
+},
 
-/*外部ファイル表示*/
-function GetTextByFile(filePath, contentID){
-    document.getElementById(contentID).innerText = "読み込み中です";
+/*外部ファイル取得(テキスト状態で)*/
+GetTextByFile: function(filePath, passArgu, callFunc){
     var xmlHR = new XMLHttpRequest();
     xmlHR.open("GET", filePath, true);
     xmlHR.onreadystatechange = function (){
         if(xmlHR.readyState === 4){
             if(xmlHR.status === 200){
-                document.getElementById(contentID).innerText = (xmlHR.responseText);
+                if(passArgu){
+                    passArgu = xmlHR.responseText;
+                }else if(callFunc){
+                    callFunc(xmlHR.responseText);
+                }else{
+                    document.write(MSG_ERROR("GetTextByFile"));
+                }
             }else{
-                document.getElementById(contentID).innerText = ("読み込みに失敗しました。");
+                passArgu = "読み込みに失敗しました。";
             }
         }
     };
     xmlHR.send();
+},
+
+/*外部ファイル取得(htmlからcontentIDへ)*/
+ShowFile: function(filePath, contentID){
+    document.getElementById(contentID).innerText = "読み込み中です...";
+    this.GetTextByFile(filePath, document.getElementById(contentID).innerText);
+},
 };
+
+export default JSDef;
