@@ -1,4 +1,4 @@
-var contentIDSave; "";
+var contentIDSave =  "";
 
 /*描画*/
 function DrawSpecialReport(resourceText)
