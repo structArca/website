@@ -22,6 +22,9 @@ function DrawSpecialReport(resourceText)
 
     let src = String(resourceText);
 
+    document.getElementById(contentIDSave).innerHTML = "読み込み成功";
+    return;
+
     for(i = 0, j = 0, n = 0, iStart = 0; i < src.length; i++){
         if(src[j] == '\n'){
             n++;
