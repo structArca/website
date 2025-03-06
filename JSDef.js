@@ -1,5 +1,5 @@
 /*エラーテキスト変換*/
-export function MSG_ERROR(file = "", func = "", line = ""){
+function MSG_ERROR(file = "", func = "", line = ""){
     return "処理失敗(開発者エラー)[" + file + " / " + func + " / " +  line + "]";
 };
 
@@ -54,7 +54,7 @@ function DateToString(_d){
     return ((1900+d.getYear()) + "年 " +  Left0(2, 1+d.getMonth()) + "月 " + Left0(2, d.getDate()) + "日 (" + days[d.getDay()] + ") " + Left0(2, d.getHours()) + ":" + Left0(2, d.getMinutes()));
 };
 
-export function ShowDate(_d){
+function ShowDate(_d){
     document.write(DateToString(_d));
 };
 
@@ -73,7 +73,7 @@ function ShowLinks(){
 };
 
 /*外部ファイル取得(テキスト状態で)*/
-export function GetTextByFile(filePath, passArgu, callFunc = null){
+function GetTextByFile(filePath, passArgu, callFunc = null){
     var xmlHR = new XMLHttpRequest();
     xmlHR.open("GET", filePath, true);
     xmlHR.onreadystatechange = function (){
