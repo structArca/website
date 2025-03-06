@@ -36,7 +36,6 @@ function DrawSpecialReport(resourceText)
 
         if(src[i] == '\n'){
             n++;
-            j = 0;
             iStart = i+1;
 
             if(data[1] == ""){
@@ -60,6 +59,7 @@ function DrawSpecialReport(resourceText)
             for(j = 0; j < dataLength; j++){
                 data[j] = "";
             }
+            j = 0;
         }
     }
 
