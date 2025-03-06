@@ -55,7 +55,7 @@ ShowDate: function (_d){
 },
 
 /*外部リンク*/
-ShowLinks: function (){
+ShowLinks: function(){
     const links = [
         "ニコニコ動画", "https://www.nicovideo.jp/user/124335584",
         "github", "https://github.com/structArca"
@@ -69,7 +69,7 @@ ShowLinks: function (){
 },
 
 /*外部ファイル取得(テキスト状態で)*/
-GetTextByFile: function(filePath, passArgu, callFunc){
+GetTextByFile: function(filePath, passArgu, callFunc = null){
     var xmlHR = new XMLHttpRequest();
     xmlHR.open("GET", filePath, true);
     xmlHR.onreadystatechange = function (){
@@ -80,7 +80,7 @@ GetTextByFile: function(filePath, passArgu, callFunc){
                 }else if(callFunc){
                     callFunc(xmlHR.responseText);
                 }else{
-                    document.write(MSG_ERROR("GetTextByFile"));
+                    document.write(JSDef.MSG_ERROR("GetTextByFile"));
                 }
             }else{
                 passArgu = "読み込みに失敗しました。";

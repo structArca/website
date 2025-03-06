@@ -1,4 +1,4 @@
-import JSDef from "JSDef.js";
+import def from "JSDef.js";
 
 function getReportData(filePath){
 };

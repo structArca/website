@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang = "ja">
     <head>
-        <script src = "JSDef.js" type = "text/javascript">
-            htmlDefHeader();
+        <script type = "module">
+            import JSDef from "./JSdef.js";
+            JSDef.htmlDefHeader();
         </script>
     </head>
     <body>            
@@ -30,20 +31,22 @@
 
         <!--更新情報-->
             <h3>更新情報</h3>
-            <a href = "special-report.js" target = "Arca - 特別報">
+            <a target = "Arca - 特別報">
                 <ul>
                     <li>開く</li>
                 </ul>
             </a>
 
         <!--外部リンク-->
-            <script type = "text/javascript">
-                ShowLinks();
+        <script type = "module">
+            import JSDef from "./JSdef.js";
+                JSDef.ShowLinks();
             </script>
 
         <!--フッター-->
-            <script type = "text/javascript">
-                htmlDefFooter();
+        <script type = "module">
+            import JSDef from "./JSdef.js";
+                JSDef.htmlDefFooter();
             </script>
         </div>
     </body>
