@@ -49,7 +49,7 @@ function DrawSpecialReport(resourceText)
             }
             if(data[2] == ""){
             }else{
-                dest += "<iframe src = \"" + data[2] + "\" >" + data[2] + "</iframe><br>";
+                dest += "<iframe src = \"" + data[2] + "\" name = \"" + data[1] + "\" >" + data[2] + "</iframe><br>";
             }
             if(data[0] == ""){
             }else{
