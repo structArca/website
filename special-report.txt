@@ -1,3 +1,4 @@
 20250225,活動開始,https://www.nicovideo.jp/watch/sm44732906
 20250302,共通ライセンスを公開,https://github.com/structArca/website/tree/main
+20250302,共通ライセンスを公開,https://github.com/structArca/website/tree/main
 余白行(消さないでね)
