@@ -1,3 +1,3 @@
-20250225,活動開始,https://structarca.github.io/structArca/website/common/icon.png
+20250225,活動開始,https://structarca.github.io/website/common/icon.png
 20250302,共通ライセンスを公開,https://github.com/structArca/website/common-license.html
 余白行(消さないでね)
