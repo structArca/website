@@ -20,10 +20,15 @@ function DrawSpecialReport(resourceText)
     3 : 詳細
     */
 
+    /*単位はvw*/
+    const imgWidth = 16;
+    const imgHeight = imgWidth * 3 / 4;
+    var underBuffer = 6;
+
     const src = String(resourceText);
 
     document.getElementById(contentIDSave).innerHTML = "読み込み中...";
-    var dest = "<div style = \"display: flex;\">";
+    var dest = "<div style = \"display: flex; padding-bottom: 6vh;\">";
 
     for(i = 0, j = 0, n = 0, iStart = 0; i < src.length; i++){
         if(src[i] == ',' || src[i] == '\n'){
@@ -36,13 +41,13 @@ function DrawSpecialReport(resourceText)
         }
 
         if(src[i] == '\n'){
-
             dest += "<div style = \"\
                 position: relative;\
                 margin: 0;\
                 padding: 0;\
-                width: 12vw;\
-                height: 16vh;\
+                padding-right: 2vw;\
+                width: " + imgWidth + "vw;\
+                height: " + (imgHeight + underBuffer) + "vw;\
                 white-space: nowrap;\
                 overflow: hidden;\
             \">";
@@ -53,29 +58,41 @@ function DrawSpecialReport(resourceText)
 
             dest += "<h4 style = '\
             '>" + data[1] + "</h4>";
+            underBuffer += 3;
             if(data[3] == ""){
             }else{
                 dest += "<p>" + data[3] + "</p>";
             }
             if(data[2] == ""){
             }else{
-                dest += "<a href = '" + data[2] + "' target = '" + data[1] + "' ";
-                dest += "style = '\
+                dest += "<div style = '\
                     position: relative;\
+                    margin: 0;\
+                    padding: 0;\
+                    width: " + imgWidth + "vw;\
+                    height: " + imgHeight + "vw;\
+                    fontsize: 0;\
+                '><a href = '" + data[2] + "' target = '" + data[1] + "' ";
+                dest += "style = '\
+                    display: block;\
+                    position: absolute;\
                     padding-left: 2vw;\
                     padding-right: 2vw;\
-                    padding-top: 2vh;\
-                    padding-bottom: 2vh;\
-                    width: 8vw;\
-                    height: 6vh;\
+                    padding-top: 2vw;\
+                    padding-bottom: 2vw;\
+                    width: " + (imgWidth - 2*2) + "vw;\
+                    height: " + (imgHeight - 2*2) + "vw;\
                     font-size: 1vw;\
                     text-align: center;\
                     background-color: #333333;\
                     color: #FFFFFF;'\
                     >"
                 dest += "No Image.";
-                dest += "<img src = \"" + data[2] + "\" onError = 'this.style.display = \"none\"'\>";
                 dest += "</a>";
+                dest += "<img src = \"" + data[2] + "\" onError = 'this.style.display = \"none\"' alt = \"この特別報のサムネイル画像\" width = '100%%' height = '100%' style = '\
+                    display: block;\
+                    position: absolute;\
+                '></div>";
             }
             if(data[0] == ""){
             }else{
@@ -100,7 +117,7 @@ function DrawSpecialReport(resourceText)
         }
     }
 
-    dest += "<div>";
+    dest += "</div>";
     document.getElementById(contentIDSave).innerHTML = dest;
 };
 
