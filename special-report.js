@@ -47,9 +47,6 @@ function DrawSpecialReport(resourceText)
                 padding: 0;\
                 padding-right: 2vw;\
                 width: " + imgWidth + "vw;\
-                height: " + (imgHeight + underBuffer) + "vw;\
-                white-space: nowrap;\
-                overflow: hidden;\
             \">";
 
             if(data[1] == ""){
@@ -57,6 +54,11 @@ function DrawSpecialReport(resourceText)
             }
 
             dest += "<h4 style = '\
+                white-space: nowrap;\
+                font-size: 1.5vw;\
+                overflow: hidden;\
+                margin: 0;\
+                padding-bottom: 0.5vw;\
             '>" + data[1] + "</h4>";
             underBuffer += 3;
             if(data[3] == ""){
@@ -78,11 +80,11 @@ function DrawSpecialReport(resourceText)
                     position: absolute;\
                     padding-left: 2vw;\
                     padding-right: 2vw;\
-                    padding-top: 2vw;\
-                    padding-bottom: 2vw;\
+                    padding-top: 5vw;\
+                    padding-bottom: 5vw;\
                     width: " + (imgWidth - 2*2) + "vw;\
-                    height: " + (imgHeight - 2*2) + "vw;\
-                    font-size: 1vw;\
+                    height: " + (imgHeight - 5*2) + "vw;\
+                    font-size: 1.25vw;\
                     text-align: center;\
                     background-color: #333333;\
                     color: #FFFFFF;'\
@@ -100,8 +102,9 @@ function DrawSpecialReport(resourceText)
                 position: relative;\
                 margin: 0;\
                 padding: 0;\
-                top: 2vh;\
-                text-size: 0.5vw;\
+                top: 1vw;\
+                font-size: 1vw;\
+                overflow: hidden;\
                 opacity: 30%;\
                 '>" + data[0] + "</div>";
             }
