@@ -16,7 +16,6 @@ function DrawSpecialReport(resourceText)
     /*
     0 : 更新日時
     1 : タイトル
-    2 : リンクの属性
     2 : リンク
     3 : 詳細
     */
@@ -50,7 +49,7 @@ function DrawSpecialReport(resourceText)
             }
             if(data[2] == ""){
             }else{
-                dest += "<a herf + \"" + data[2] + "\"><img src = \"" + data[2] + "\" >" + data[2] + "</a><br>";
+                dest += "<iframe src = \"" + data[2] + "\" >" + data[2] + "</iframe><br>";
             }
             if(data[0] == ""){
             }else{
