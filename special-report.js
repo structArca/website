@@ -50,7 +50,7 @@ function DrawSpecialReport(resourceText)
             }
             if(data[2] == ""){
             }else{
-                dest += "<a herf + \"" + data[2] + "\"><img src = \"" + data[2] + "\" >" + data[2] + "</iframe></a><br>";
+                dest += "<a herf + \"" + data[2] + "\"><img src = \"" + data[2] + "\" >" + data[2] + "</img></a><br>";
             }
             if(data[0] == ""){
             }else{
