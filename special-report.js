@@ -1,3 +1,4 @@
+/*special-report.txtは、最後に一行余白行が必要*/
 
 /*描画*/
 function DrawSpecialReport(resourceText)
@@ -48,7 +49,7 @@ function DrawSpecialReport(resourceText)
             }
             if(data[2] == ""){
             }else{
-                dest += "<a href = \"" + data[2] + "\" target = \"" + data[1] + "\" >" + data[2] + "</a><br>";
+                dest += "<iframe src = \"" + data[2] + "\" name = \"" + data[1] + "\" >" + data[2] + "</iframe><br>";
             }
             if(data[0] == ""){
             }else{

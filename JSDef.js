@@ -1,3 +1,7 @@
+
+/*リンク*/
+const LINK_GITHUB_DEF = "https://structarca.github.io/website/";
+
 /*エラーテキスト変換*/
 function MSG_ERROR(file = "", func = "", line = ""){
     return "処理失敗(開発者エラー)[" + file + " / " + func + " / " +  line + "]";
@@ -13,7 +17,7 @@ function htmlDefHaeder(){
             name = "keywords", content = "Arca,structArca,Arca構造体"\
         ></meta>\
         <link \
-            rel = "icon" href = "https://structarca.github.io/website/common/icon.png" sizes = "1080x1080" type = "image/png">\
+            rel = "icon" href = "' + LINK_GITHUB_DEF + 'common/icon.png" sizes = "1080x1080" type = "image/png">\
     ');
 };
 
