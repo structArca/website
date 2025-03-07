@@ -40,8 +40,11 @@ function DrawSpecialReport(resourceText)
             dest += "<div style = \"\
                 position: relative;\
                 margin: 0;\
-                margin-right: 2vh;\
                 padding: 0;\
+                width: 12vw;\
+                height: 16vh;\
+                white-space: nowrap;\
+                overflow: hidden;\
             \">";
 
             if(data[1] == ""){
@@ -49,7 +52,6 @@ function DrawSpecialReport(resourceText)
             }
 
             dest += "<h4 style = '\
-                overflow: visible;\
             '>" + data[1] + "</h4>";
             if(data[3] == ""){
             }else{
@@ -60,7 +62,6 @@ function DrawSpecialReport(resourceText)
                 dest += "<a href = '" + data[2] + "' target = '" + data[1] + "' ";
                 dest += "style = '\
                     position: relative;\
-                    margin: 0;\
                     padding-left: 2vw;\
                     padding-right: 2vw;\
                     padding-top: 2vh;\
@@ -99,7 +100,7 @@ function DrawSpecialReport(resourceText)
         }
     }
 
-    dest += "<div><br><br>";
+    dest += "<div>";
     document.getElementById(contentIDSave).innerHTML = dest;
 };
 
