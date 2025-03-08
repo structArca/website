@@ -41,9 +41,6 @@ function DrawSpecialReport(resourceText)
         }
 
         if(src[i] == '\n'){
-            if((padRight + imgWidth) * n > 100){
-                break;
-            }
             dest += "<div style = \"\
                 position: relative;\
                 margin: 0;\
@@ -128,6 +125,9 @@ function DrawSpecialReport(resourceText)
             iStart = i+1;
             j = 0;
             n++;
+            if((padRight + imgWidth) * n > 100){
+                break;
+            }
         }
     }
 
