@@ -125,9 +125,9 @@ function DrawSpecialReport(resourceText)
             iStart = i+1;
             j = 0;
             n++;
-            if((padRight + imgWidth) * n > 100){
-                break;
-            }
+            // if((padRight + imgWidth) * n > 100){
+            //     break;
+            // }
         }
     }
 

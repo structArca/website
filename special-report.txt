@@ -4,9 +4,4 @@
 20250302,共通ライセンスを公開,https://github.com/structArca/website/common-license.html
 20250302,共通ライセンスを公開,https://github.com/structArca/website/common-license.html
 20250302,共通ライセンスを公開,https://github.com/structArca/website/common-license.html
-20250302,共通ライセンスを公開,https://github.com/structArca/website/common-license.html
-20250302,共通ライセンスを公開,https://github.com/structArca/website/common-license.html
-20250302,共通ライセンスを公開,https://github.com/structArca/website/common-license.html
-20250302,共通ライセンスを公開,https://github.com/structArca/website/common-license.html
-20250302,共通ライセンスを公開,https://github.com/structArca/website/common-license.html
 余白行(消さないでね)
