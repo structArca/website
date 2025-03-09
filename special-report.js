@@ -7,19 +7,15 @@ const pageWidth = 1920;
 var scrollX = 0;/*右が正*/
 const scrollWidth = 30;/*px*/
 
-function ScrollX(){
+function ScrollX(f = 0/*進むなら1, 戻るなら-1, なにもしないなら0*/){
+    scrollX += Number(f);
+    // if(scrollX < 0){
+    //     scrollX = 0;
+    // }
+    ReDraw("rangeB");
     return scrollX * scrollWidth;
 }
 
-function ScrollProc(event){
-    event = Event(event);
-    if(event.deltaX < 0){
-        scrollX++;
-    }else{
-        scrollX--;
-    }
-    alert("A");
-}
 
 /*再描画*/
 function ReDraw(range)
@@ -60,7 +56,6 @@ function DrawSpecialReport(resourceText)
 
     /*rangeB_SpecialReport_allRange*/
     var dest = "<div id = 'rangeB_SpecialReport_allRange' style = \"\
-        display: flex;\
         position: absolute;\
         top: 0;\
         left: 0;\
@@ -76,6 +71,8 @@ function DrawSpecialReport(resourceText)
         width: " + sideScrollZoneWidth + "px;\
         height: inherit;\
         background-color: #333333;\
+    ' onmouseover = '\
+        ScrollX(-1);\
     '></div>";
 
     /*特別報一覧本体*/
@@ -86,7 +83,17 @@ function DrawSpecialReport(resourceText)
         width: " + (pageWidth - sideScrollZoneWidth*2) + "px;\
         height: inherit;\
         display: flex;\
+        flex-direction: row;\
+        overflow: hidden;\
+        white-space: nowrap;\
     '>";
+    /*全体のスクロールを制御するためだけの要素*/
+    dest += "<div style = '\
+        position: relative;\
+        width: 100px;\
+        height: inherit;\
+        background-color: #ff0000;\
+    '></div>";
     for(i = 0, j = 0, n = 0, iStart = 0; i < src.length; i++){
         if(src[i] == ',' || src[i] == '\n'){
             data[j] = src.slice(iStart, i);
@@ -98,7 +105,7 @@ function DrawSpecialReport(resourceText)
         }
 
         if(src[i] == '\n'){
-            if(ScrollX() + (imgWidth) * n < 0){
+            if(ScrollX() + (imgWidth + imgPadSide*2) * n < 0){
             }else{
                 dest += "<div style = \"\
                     position: relative;\
@@ -146,7 +153,6 @@ function DrawSpecialReport(resourceText)
                         fontsize: 0;\
                     '><a href = '" + data[2] + "' target = '" + data[1] + "' ";
                     rangeHeight += imgHeight;
-
                     const No_Image_fontSize = 25;/*px*/
                     dest += "style = '\
                         display: block;\
@@ -159,6 +165,11 @@ function DrawSpecialReport(resourceText)
                         text-align: center;\
                         background-color: #444444;\
                         color: #FFFFFF;\
+                        '\
+                        onmouseover = '\
+                            this.style.opacity = \"50%\";'\
+                        onmouseout = '\
+                            this.style.opacity = \"100%\";'\
                         '\
                         >"
                     dest += "No Image.";
@@ -194,7 +205,7 @@ function DrawSpecialReport(resourceText)
                 iStart = i+1;
                 j = 0;
                 n++;
-                if(ScrollX() + (imgPadSide + imgWidth) * n > pageWidth){
+                if(ScrollX() + (imgPadSide*2 + imgWidth) * n + imgPadSide + sideScrollZoneWidth*2 > pageWidth){
                     break;
                 }
             }
@@ -205,7 +216,7 @@ function DrawSpecialReport(resourceText)
             }
         }
     }
-    dest +- "</div>";
+    dest += "</div>";
 
     /*右へゾーン*/
     dest += "<div style = '\
@@ -215,17 +226,20 @@ function DrawSpecialReport(resourceText)
         width: " + sideScrollZoneWidth + "px;\
         height: inherit;\
         background-color: #333333;\
+    ' onmouseover = '\
+        ScrollX(1);\
     '></div>";
+
 
     dest += "</div>";
     var cid = document.getElementById(contentIDSave);
-    cid.innerHTML = dest;
     cid.style.height = "" + rangeHeightMax + "px";
+    cid.innerHTML = dest;
     ReDraw("allRange");
 };
 
 /*ファイル読み込ませ、Drawを呼び出させる*/
 function ShowSpecialReport(filePath, contentID){
-    setTimeout(() => GetTextByFile(filePath, null, DrawSpecialReport), 2000);
+    setTimeout(() => GetTextByFile(filePath, null, DrawSpecialReport), 1);
     contentIDSave = contentID;
 };
