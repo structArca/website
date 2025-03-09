@@ -7,48 +7,70 @@
             htmlDefHeader();
         </script>
     </head>
-    <body>            
-        <!--ヘッダー-->
-            <h2 style = "
-                position: relative;
-                top: 2vh;
-                left: 5vw;
-            ">
-                Arca
-            </h2><br>
-        <div style = "
-            position: relative;
-            top: 2vh;
-            left: 10vw;
+    <!--横幅は1920pxとする(jsでも同様)-->
+    <body style = "background: #FFFFFF">
+        <div id = "allRange" style = "
+            display: flex;
+            flex-direction: column;
         ">
-        
-        <!--共通ライセンス-->
-            <h3>共通ライセンス</h3>
-            <a href = "common-license.html" target = "Arca - 共通ライセンス">
-                <ul>
-                    <li>開く</li>
-                </ul>
-            </a>
-
-        <!--更新情報-->
-            <h3>更新情報</h3>
-            <div id = "special-report_main" style = "
+            <div id = "rangeA" style = "
                 position: relative;
-                left: 5vw;
-            "></div>
-            <script type = "text/javascript">
-                ShowSpecialReport(LINK_GITHUB("special-report.txt"), "special-report_main");
-            </script>
+                top: 0;
+                left: 0;
+                width: 1920px;
+                height: 300px;
+            ">
+                <!--ヘッダー-->
+                    <h2 style = "
+                        position: relative;
+                        top: 2vh;
+                        left: 5vw;
+                    ">
+                        Arca
+                    </h2><br>
+                <div style = "
+                    position: relative;
+                    top: 2vh;
+                    left: 10vw;
+                ">
+                
+                <!--共通ライセンス-->
+                    <h3>共通ライセンス</h3>
+                    <a href = "common-license.html" target = "Arca - 共通ライセンス">
+                        <ul>
+                            <li>開く</li>
+                        </ul>
+                    </a>
 
-        <!--外部リンク-->
-            <script type = "text/javascript">
-                ShowLinks();
-            </script>
+                <!--特別報-->
+                    <h3>特別報</h3>
+                </div>
+            </div><div id = "rangeB" style = "
+                    position: relative;
+                    width: 1920px;
+                    /*ShowSpecialReport->DrawSpecialReportが、高さを再設定*/
+                    height: 50px;
+                    /* background-color: rgba(230, 230, 200, 0.5); */
+                    /* box-shadow: 0 0 10vw rgba(230, 230, 200, 0.5); */
+                    ">
+                読み込み中...
+                <script type = "text/javascript">
+                    ShowSpecialReport(LINK_GITHUB("special-report.txt"), "rangeB");
+                </script>
+            </div><div id = "rangeC" style = "
+                position: relative;
+            ">
 
-        <!--フッター-->
-            <script type = "text/javascript">
-                htmlDefFooter();
-            </script>
+                <!--外部リンク-->
+                    <script type = "text/javascript">
+                        ShowLinks();
+                    </script>
+
+                <!--フッター-->
+                    <script type = "text/javascript">
+                        htmlDefFooter();
+                    </script>
+            </div>
         </div>
     </body>
 </html>

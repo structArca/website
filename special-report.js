@@ -1,5 +1,33 @@
 /*special-report.txtは、最後に一行余白行が必要*/
 
+/*横幅は1920pxとする(htmlでも同様)*/
+
+const pageWidth = 1920;
+
+var scrollX = 0;/*右が正*/
+const scrollWidth = 30;/*px*/
+
+function ScrollX(){
+    return scrollX * scrollWidth;
+}
+
+function ScrollProc(event){
+    event = Event(event);
+    if(event.deltaX < 0){
+        scrollX++;
+    }else{
+        scrollX--;
+    }
+    alert("A");
+}
+
+/*再描画*/
+function ReDraw(range)
+{
+    document.getElementById(range).style.display = 'none';
+    document.getElementById(range).style.display = '';
+}
+
 /*描画*/
 function DrawSpecialReport(resourceText)
 {
@@ -20,16 +48,45 @@ function DrawSpecialReport(resourceText)
     3 : 詳細
     */
 
-    /*単位はvw*/
-    const imgWidth = 16;
+    /*単位はpx*/
+    const imgWidth = 300;
     const imgHeight = imgWidth * 3 / 4;
-    const padRight = 2;
+    const imgPadSide = 30;
+    const sideScrollZoneWidth = 100;
+    var rangeHeight = 0;/*特別報全体の高さ*/
+    var rangeHeightMax = 0;/*特別報全体の高さ(最も大きかったものを保存、設定)*/
 
     const src = String(resourceText);
 
-    document.getElementById(contentIDSave).innerHTML = "読み込み中...";
-    var dest = "<div style = \"display: flex; padding-bottom: 6vh;\">";
+    /*rangeB_SpecialReport_allRange*/
+    var dest = "<div id = 'rangeB_SpecialReport_allRange' style = \"\
+        display: flex;\
+        position: absolute;\
+        top: 0;\
+        left: 0;\
+        width: inherit;\
+        height: inherit;\
+    \">";
 
+    /*左へゾーン*/
+    dest += "<div style = '\
+        position: absolute;\
+        left: 0;\
+        top: 0;\
+        width: " + sideScrollZoneWidth + "px;\
+        height: inherit;\
+        background-color: #333333;\
+    '></div>";
+
+    /*特別報一覧本体*/
+    dest += "<div style = '\
+        position: absolute;\
+        left: " + sideScrollZoneWidth + "px;\
+        top: 0;\
+        width: " + (pageWidth - sideScrollZoneWidth*2) + "px;\
+        height: inherit;\
+        display: flex;\
+    '>";
     for(i = 0, j = 0, n = 0, iStart = 0; i < src.length; i++){
         if(src[i] == ',' || src[i] == '\n'){
             data[j] = src.slice(iStart, i);
@@ -41,102 +98,134 @@ function DrawSpecialReport(resourceText)
         }
 
         if(src[i] == '\n'){
-            dest += "<div style = \"\
-                position: relative;\
-                margin: 0;\
-                padding: 0;\
-                padding-right: " + padRight + "vw;\
-                width: " + imgWidth + "vw;\
-            \">";
-
-            if(data[1] == ""){
-                data[1] = "無題"
-            }
-
-            dest += "<h4 style = '\
-                white-space: nowrap;\
-                font-size: 1.5vw;\
-                overflow: hidden;\
-                margin: 0;\
-                padding-bottom: 0.5vw;\
-            '\
-            >" + data[1] + "</h4>";
-            underBuffer += 3;
-            if(data[3] == ""){
+            if(ScrollX() + (imgWidth) * n < 0){
             }else{
-                dest += "<p>" + data[3] + "</p>";
-            }
-            if(data[2] == ""){
-            }else{
-                dest += "<div style = '\
+                dest += "<div style = \"\
                     position: relative;\
                     margin: 0;\
                     padding: 0;\
-                    width: " + imgWidth + "vw;\
-                    height: " + imgHeight + "vw;\
-                    transition-property: transform, width, height;\
-                    transition-duration: 0.3s;\
-                    transition-timing-function: ease;\
-                    fontsize: 0;\
-                '\
-            onMouseOver = 'this.style.opacity = \"80%\"; this.style.transform = \"scale(1.2)\";'\
-            onMouseOut = 'this.style.opacity = \"100%\"; this.style.transform = \"scale(1)\";'\
-            ><a href = '" + data[2] + "' target = '" + data[1] + "' ";
-                dest += "style = '\
-                    display: block;\
-                    position: absolute;\
-                    padding-left: 2vw;\
-                    padding-right: 2vw;\
-                    padding-top: 5vw;\
-                    padding-bottom: 5vw;\
-                    width: " + (imgWidth - 2*2) + "vw;\
-                    height: " + (imgHeight - 5*2) + "vw;\
-                    font-size: 1.25vw;\
-                    text-align: center;\
-                    background-color: #444444;\
-                    color: #FFFFFF;\
-                    '\
-                    >"
-                dest += "No Image.";
-                dest += "</a><a href = '" + data[2] + "' target = '" + data[1] + "' >";
-                dest += "<img src = \"" + data[2] + "\" onError = 'this.style.display = \"none\"' alt = \"この特別報のサムネイル画像\" width = '100%%' height = '100%' style = '\
-                    display: block;\
-                    position: absolute;\
-                '></a></div>";
-            }
-            if(data[0] == ""){
-            }else{
-                dest += "<div style = '\
-                position: relative;\
-                margin: 0;\
-                padding: 0;\
-                top: 1vw;\
-                font-size: 1vw;\
-                overflow: hidden;\
-                opacity: 30%;\
-                '>" + data[0] + "</div>";
-            }
-            // dest += "<br><br>";
-            dest += "</div>";
+                    padding-left: " + imgPadSide + "px;\
+                    padding-right: " + imgPadSide + "px;\
+                    width: " + imgWidth + "px;\
+                \">";
 
-            for(j = 0; j < dataLength; j++){
-                data[j] = "";
+                if(data[1] == ""){
+                    data[1] = "無題"
+                }
+
+                if(true){
+                const titleTextHeight = 25;/*px*/
+                const titlePadBottom = 10;/*px*/
+                dest += "<h4 style = '\
+                    display: block;\
+                    positon: relative;\
+                    width: " + imgWidth + "px;\
+                    height: " + titleTextHeight + "px;\
+                    white-space: nowrap;\
+                    font-size: " + titleTextHeight + "px;\
+                    overflow: hidden;\
+                    margin: 0;\
+                    padding-bottom: " + titlePadBottom + "px;\
+                '\
+                >" + data[1] + "</h4>";
+                rangeHeight += titleTextHeight + titlePadBottom;
+                }
+
+                if(data[3] == ""){
+                }else{
+                    dest += "<p>" + data[3] + "</p>";
+                }
+                if(data[2] == ""){
+                }else{
+                    dest += "<div style = '\
+                        position: relative;\
+                        margin: 0;\
+                        padding: 0;\
+                        width: " + imgWidth + "px;\
+                        height: " + imgHeight + "px;\
+                        fontsize: 0;\
+                    '><a href = '" + data[2] + "' target = '" + data[1] + "' ";
+                    rangeHeight += imgHeight;
+
+                    const No_Image_fontSize = 25;/*px*/
+                    dest += "style = '\
+                        display: block;\
+                        position: absolute;\
+                        padding-top: " + (imgHeight - No_Image_fontSize)/2 + "px;\
+                        padding-bottom: " + (imgHeight - No_Image_fontSize)/2 + "px;\
+                        width: " + imgWidth + "px;\
+                        height: " + No_Image_fontSize + "px;\
+                        font-size: " + No_Image_fontSize + "px;\
+                        text-align: center;\
+                        background-color: #444444;\
+                        color: #FFFFFF;\
+                        '\
+                        >"
+                    dest += "No Image.";
+                    dest += "<img src = \"" + data[2] + "\" onError = 'this.style.display = \"none\"' alt = \"この特別報のサムネイル画像\" width = '100%%' height = '100%' style = '\
+                        display: block;\
+                        position: absolute;\
+                        top: 0;\
+                        left: 0;\
+                        width: " + imgWidth + "px;\
+                        height: " + imgHeight + "px;\
+                    '></a></div>";
+                }
+                if(data[0] == ""){
+                }else{
+                    const dateFontSize = 10;/*px*/
+                    dest += "<div style = '\
+                    position: relative;\
+                    margin: 0;\
+                    padding: 0;\
+                    font-size: " + dateFontSize + "px;\
+                    overflow: hidden;\
+                    text-align: right;\
+                    opacity: 30%;\
+                    '>" + data[0] + "</div>";
+                    rangeHeight += dateFontSize;
+                }
+                // dest += "<br><br>";
+                dest += "</div>";
+
+                for(j = 0; j < dataLength; j++){
+                    data[j] = "";
+                }
+                iStart = i+1;
+                j = 0;
+                n++;
+                if(ScrollX() + (imgPadSide + imgWidth) * n > pageWidth){
+                    break;
+                }
             }
-            iStart = i+1;
-            j = 0;
-            n++;
-            // if((padRight + imgWidth) * n > 100){
-            //     break;
-            // }
+
+            if(rangeHeightMax < rangeHeight){
+                rangeHeightMax = rangeHeight;
+                rangeHeight = 0;
+            }
         }
     }
+    dest +- "</div>";
+
+    /*右へゾーン*/
+    dest += "<div style = '\
+        position: absolute;\
+        left: " + (pageWidth - sideScrollZoneWidth) + "px;\
+        top: 0;\
+        width: " + sideScrollZoneWidth + "px;\
+        height: inherit;\
+        background-color: #333333;\
+    '></div>";
 
     dest += "</div>";
-    document.getElementById(contentIDSave).innerHTML = dest;
+    var cid = document.getElementById(contentIDSave);
+    cid.innerHTML = dest;
+    cid.style.height = "" + rangeHeightMax + "px";
+    ReDraw("allRange");
 };
 
 /*ファイル読み込ませ、Drawを呼び出させる*/
 function ShowSpecialReport(filePath, contentID){
-    GetTextByFile(filePath, null, DrawSpecialReport);
+    setTimeout(() => GetTextByFile(filePath, null, DrawSpecialReport), 2000);
     contentIDSave = contentID;
 };
