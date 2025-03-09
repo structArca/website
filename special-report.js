@@ -9,10 +9,9 @@ const scrollWidth = 30;/*px*/
 
 function ScrollX(f = 0/*進むなら1, 戻るなら-1, なにもしないなら0*/){
     scrollX += Number(f);
-    // if(scrollX < 0){
-    //     scrollX = 0;
-    // }
-    ReDraw("rangeB");
+    if(scrollX < 0){
+        scrollX = 0;
+    }
     return scrollX * scrollWidth;
 }
 
@@ -54,8 +53,8 @@ function DrawSpecialReport(resourceText)
 
     const src = String(resourceText);
 
-    /*rangeB_SpecialReport_allRange*/
-    var dest = "<div id = 'rangeB_SpecialReport_allRange' style = \"\
+    /*rangeB_specialReport_allRange*/
+    var dest = "<div id = 'rangeB_specialReport_allRange' style = \"\
         position: absolute;\
         top: 0;\
         left: 0;\
@@ -71,9 +70,7 @@ function DrawSpecialReport(resourceText)
         width: " + sideScrollZoneWidth + "px;\
         height: inherit;\
         background-color: #333333;\
-    ' onmouseover = '\
-        ScrollX(-1);\
-    '></div>";
+    ' id = 'rangeB_specialReport_leftRange'></div>";
 
     /*特別報一覧本体*/
     dest += "<div style = '\
@@ -86,14 +83,15 @@ function DrawSpecialReport(resourceText)
         flex-direction: row;\
         overflow: hidden;\
         white-space: nowrap;\
-    '>";
+    ' id = 'rangeB_specialReport_main'>";
     /*全体のスクロールを制御するためだけの要素*/
     dest += "<div style = '\
         position: relative;\
+        left: 0;\
         width: 100px;\
         height: inherit;\
         background-color: #ff0000;\
-    '></div>";
+    ' id = 'rangeB_specialReport_main_base'></div>";
     for(i = 0, j = 0, n = 0, iStart = 0; i < src.length; i++){
         if(src[i] == ',' || src[i] == '\n'){
             data[j] = src.slice(iStart, i);
@@ -117,7 +115,7 @@ function DrawSpecialReport(resourceText)
                 \">";
 
                 if(data[1] == ""){
-                    data[1] = "無題"
+                    data[1] = "無題";
                 }
 
                 if(true){
@@ -226,20 +224,27 @@ function DrawSpecialReport(resourceText)
         width: " + sideScrollZoneWidth + "px;\
         height: inherit;\
         background-color: #333333;\
-    ' onmouseover = '\
-        ScrollX(1);\
-    '></div>";
-
+    ' id = 'rangeB_specialReport_rightRange'></div>";
 
     dest += "</div>";
     var cid = document.getElementById(contentIDSave);
     cid.style.height = "" + rangeHeightMax + "px";
     cid.innerHTML = dest;
+
     ReDraw("allRange");
+    var leftZone = document.getElementById("rangeB_specialReport_leftRange");
+    leftZone.addEventListener('mouseover', () => {document.getElementById("rangeB_specialReport_main_base").style.left = ScrollX(-1);DrawSpecialReport(resourceText);});
+    var rightZone = document.getElementById("rangeB_specialReport_rightRange");
+    rightZone.addEventListener('mouseover', () => {document.getElementById("rangeB_specialReport_main_base").style.left = ScrollX(1);DrawSpecialReport(resourceText);});
 };
 
 /*ファイル読み込ませ、Drawを呼び出させる*/
-function ShowSpecialReport(filePath, contentID){
-    setTimeout(() => GetTextByFile(filePath, null, DrawSpecialReport), 1);
+function ShowSpecialReport(){
+    filePath = LINK_GITHUB("special-report.txt");
+    contentID = "rangeB";
+    
+    //setTimeout(() => 
+        GetTextByFile(filePath, null, DrawSpecialReport)
+    //, 1);
     contentIDSave = contentID;
 };
