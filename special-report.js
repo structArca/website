@@ -2,8 +2,6 @@
 
 /*横幅は1920pxとする(htmlでも同様)*/
 
-const pageWidth = 1920;
-
 var scrollX = 0;/*右が正*/
 const scrollWidth = 30;/*px*/
 
@@ -44,12 +42,16 @@ function DrawSpecialReport(resourceText)
     */
 
     /*単位はpx*/
+    const pageWidth = document.documentElement.clientWidth;
     const imgWidth = 300;
     const imgHeight = imgWidth * 3 / 4;
     const imgPadSide = 30;
     const sideScrollZoneWidth = 100;
     var rangeHeight = 0;/*特別報全体の高さ*/
     var rangeHeightMax = 0;/*特別報全体の高さ(最も大きかったものを保存、設定)*/
+    /*特別報記事一覧本体の左右端*/
+    const mainLeftPos = sideScrollZoneWidth;
+    const mainRightPos = pageWidth - sideScrollZoneWidth;
 
     const src = String(resourceText);
 
@@ -79,19 +81,20 @@ function DrawSpecialReport(resourceText)
         top: 0;\
         width: " + (pageWidth - sideScrollZoneWidth*2) + "px;\
         height: inherit;\
-        display: flex;\
-        flex-direction: row;\
         overflow: hidden;\
         white-space: nowrap;\
     ' id = 'rangeB_specialReport_main'>";
     /*全体のスクロールを制御するためだけの要素*/
     dest += "<div style = '\
-        position: relative;\
-        left: 0;\
-        width: 100px;\
+        position: absolute;\
+        left: " + ScrollX() + "px;\
+        width: 50px;\
         height: inherit;\
         background-color: #ff0000;\
     ' id = 'rangeB_specialReport_main_base'></div>";
+
+    var itemLeftPos = 0;
+    var itemRightPos = 0;
     for(i = 0, j = 0, n = 0, iStart = 0; i < src.length; i++){
         if(src[i] == ',' || src[i] == '\n'){
             data[j] = src.slice(iStart, i);
@@ -103,15 +106,20 @@ function DrawSpecialReport(resourceText)
         }
 
         if(src[i] == '\n'){
-            if(ScrollX() + (imgWidth + imgPadSide*2) * n < 0){
+            itemLeftPos = ScrollX() + (imgWidth + imgPadSide*2) * n;
+            itemRightPos = itemLeftPos + (imgWidth + imgPadSide*2);
+            if(itemRightPos < 0){
+                /*右端が見える位置にない場合、定義しない*/
             }else{
+                /*記事全体のdiv*/
                 dest += "<div style = \"\
-                    position: relative;\
+                    position: absolute;\
                     margin: 0;\
                     padding: 0;\
                     padding-left: " + imgPadSide + "px;\
                     padding-right: " + imgPadSide + "px;\
                     width: " + imgWidth + "px;\
+                    left: " + itemLeftPos + "px;\
                 \">";
 
                 if(data[1] == ""){
@@ -203,7 +211,7 @@ function DrawSpecialReport(resourceText)
                 iStart = i+1;
                 j = 0;
                 n++;
-                if(ScrollX() + (imgPadSide*2 + imgWidth) * n + imgPadSide + sideScrollZoneWidth*2 > pageWidth){
+                if(mainRightPos <= itemLeftPos){
                     break;
                 }
             }
@@ -219,7 +227,7 @@ function DrawSpecialReport(resourceText)
     /*右へゾーン*/
     dest += "<div style = '\
         position: absolute;\
-        left: " + (pageWidth - sideScrollZoneWidth) + "px;\
+        left: " + mainRightPos + "px;\
         top: 0;\
         width: " + sideScrollZoneWidth + "px;\
         height: inherit;\
@@ -233,9 +241,9 @@ function DrawSpecialReport(resourceText)
 
     ReDraw("allRange");
     var leftZone = document.getElementById("rangeB_specialReport_leftRange");
-    leftZone.addEventListener('mouseover', () => {document.getElementById("rangeB_specialReport_main_base").style.left = ScrollX(-1);DrawSpecialReport(resourceText);});
+    leftZone.addEventListener('mouseover', () => {ScrollX(-1);DrawSpecialReport(resourceText);});
     var rightZone = document.getElementById("rangeB_specialReport_rightRange");
-    rightZone.addEventListener('mouseover', () => {document.getElementById("rangeB_specialReport_main_base").style.left = ScrollX(1);DrawSpecialReport(resourceText);});
+    rightZone.addEventListener('mouseover', () => {ScrollX(1);DrawSpecialReport(resourceText);});
 };
 
 /*ファイル読み込ませ、Drawを呼び出させる*/
