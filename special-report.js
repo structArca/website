@@ -205,7 +205,7 @@ function DrawSpecialReport(resourceText)
                         width: " + imgWidth + "px;\
                         height: " + imgHeight + "px;\
                         fontsize: 0;\
-                    '><a href = '" + data[3] + "' target = '" + data[1] + "' ";
+                    '><a href = '" + (data[3] == "" ? "" : data[3]) + "' target = '" + data[1] + "' ";
                     rangeHeight += imgHeight;
                     const No_Image_fontSize = 25;/*px*/
                     dest += "style = '\
@@ -227,15 +227,17 @@ function DrawSpecialReport(resourceText)
                         '\
                         >"
                     dest += "No Image.";
-                    dest += "<img src = \"" + data[4] + "\" onError = 'this.style.opacity = 0;' alt = \"\" width = '100%%' height = '100%' style = '\
-                        display: block;\
-                        position: absolute;\
-                        top: 0;\
-                        left: 0;\
-                        width: " + imgWidth + "px;\
-                        height: " + imgHeight + "px;\
-                        text-color: rgba(0, 0, 0, 0);\
-                    '></a></div>";
+                    if(data[4] != ""){
+                        dest += "<img src = \"" + data[4] + "\" onError = 'this.style.opacity = 0;' alt = \"\" width = '100%%' height = '100%' style = '\
+                            display: block;\
+                            position: absolute;\
+                            top: 0;\
+                            left: 0;\
+                            width: " + imgWidth + "px;\
+                            height: " + imgHeight + "px;\
+                        '>";
+                    }
+                    dest += "</a></div>";
                 }
                 if(data[0] == ""){
                 }else{
