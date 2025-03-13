@@ -63,7 +63,7 @@ function DrawSpecialReport(resourceText)
         return;
     }
 
-    let dataLength = 4;
+    let dataLength = 5;
     let data = Array(dataLength);
     for(j = 0; j < dataLength; j++){
         data[j] = "";
@@ -196,7 +196,7 @@ function DrawSpecialReport(resourceText)
                 }else{
                     dest += "<p>" + data[2] + "</p>";
                 }
-                if(data[3] == "" || data[4] == ""){
+                if(data[3] == "" && data[4] == ""){
                 }else{
                     dest += "<div style = '\
                         position: relative;\
@@ -205,7 +205,7 @@ function DrawSpecialReport(resourceText)
                         width: " + imgWidth + "px;\
                         height: " + imgHeight + "px;\
                         fontsize: 0;\
-                    '><a href = '" + data[2] + "' target = '" + data[1] + "' ";
+                    '><a href = '" + data[3] + "' target = '" + data[1] + "' ";
                     rangeHeight += imgHeight;
                     const No_Image_fontSize = 25;/*px*/
                     dest += "style = '\
@@ -227,7 +227,7 @@ function DrawSpecialReport(resourceText)
                         '\
                         >"
                     dest += "No Image.";
-                    dest += "<img src = \"" + data[2] + "\" onError = 'this.style.opacity = 0;' alt = \"\" width = '100%%' height = '100%' style = '\
+                    dest += "<img src = \"" + data[4] + "\" onError = 'this.style.opacity = 0;' alt = \"\" width = '100%%' height = '100%' style = '\
                         display: block;\
                         position: absolute;\
                         top: 0;\
