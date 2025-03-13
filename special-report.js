@@ -192,10 +192,6 @@ function DrawSpecialReport(resourceText)
                 rangeHeight += titleTextHeight + titlePadBottom;
                 }
 
-                if(data[2] == ""){
-                }else{
-                    dest += "<p>" + data[2] + "</p>";
-                }
                 if(data[3] == "" && data[4] == ""){
                 }else{
                     dest += "<div style = '\
@@ -238,6 +234,10 @@ function DrawSpecialReport(resourceText)
                         '>";
                     }
                     dest += "</a></div>";
+                }
+                if(data[2] == ""){
+                }else{
+                    dest += "<p>" + data[2] + "</p>";
                 }
                 if(data[0] == ""){
                 }else{
