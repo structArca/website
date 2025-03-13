@@ -3,14 +3,48 @@
 /*横幅は1920pxとする(htmlでも同様)*/
 
 var scrollX = 0;/*右が正*/
-const scrollWidth = 30;/*px*/
+const scrollWidth = 3;/*px*/
+var scrollWidthLimit = 0;/*DrawSpecialReportが代入*/
 
 function ScrollX(f = 0/*進むなら1, 戻るなら-1, なにもしないなら0*/){
     scrollX += Number(f);
     if(scrollX < 0){
         scrollX = 0;
+    }else if(scrollX * scrollWidth > scrollWidthLimit){
+        scrollX -= Number(f);
     }
     return scrollX * scrollWidth;
+}
+
+
+var contentIDSave = null;
+
+var intervalScrollID = new Array(2).fill(null);
+
+function IntervalScroll(lr/*'l'または'r'を渡す*/, method, fReset = false)
+{
+    var index;
+    switch(lr){
+        case 'main_L':
+            index = 0;
+            break;
+        case 'main_R':
+            index = 1;
+            break;
+        default:
+            MSG_ERROR("spacial-report.js", "intervalScroll", "switch-default");
+            break;
+    }
+
+    if(fReset){
+        clearInterval(intervalScrollID[index]);
+        intervalScrollID[index] = null;
+    }else{
+        if(intervalScrollID[index] == null){
+            intervalScrollID[index] = setInterval(method, 1);
+        }
+    }
+
 }
 
 
@@ -37,8 +71,9 @@ function DrawSpecialReport(resourceText)
     /*
     0 : 更新日時
     1 : タイトル
-    2 : リンク
-    3 : 詳細
+    2 : 詳細
+    3 : リンク
+    4 : サムネイル
     */
 
     /*単位はpx*/
@@ -50,7 +85,6 @@ function DrawSpecialReport(resourceText)
     var rangeHeight = 0;/*特別報全体の高さ*/
     var rangeHeightMax = 0;/*特別報全体の高さ(最も大きかったものを保存、設定)*/
     /*特別報記事一覧本体の左右端*/
-    const mainLeftPos = sideScrollZoneWidth;
     const mainRightPos = pageWidth - sideScrollZoneWidth;
 
     const src = String(resourceText);
@@ -87,11 +121,14 @@ function DrawSpecialReport(resourceText)
     /*全体のスクロールを制御するためだけの要素*/
     dest += "<div style = '\
         position: absolute;\
-        left: " + ScrollX() + "px;\
+        left: " + -ScrollX() + "px;\
         width: 50px;\
         height: inherit;\
-        background-color: #ff0000;\
+        background-color: rgba(0, 0, 0, 0);\
     ' id = 'rangeB_specialReport_main_base'></div>";
+
+    var showItemNumberFirst = -1;/*新しい方から数えての値*/
+    var showItemNumberLast = -1;/*新しい方から数えての値*/
 
     var itemLeftPos = 0;
     var itemRightPos = 0;
@@ -106,11 +143,22 @@ function DrawSpecialReport(resourceText)
         }
 
         if(src[i] == '\n'){
-            itemLeftPos = ScrollX() + (imgWidth + imgPadSide*2) * n;
-            itemRightPos = itemLeftPos + (imgWidth + imgPadSide*2);
+            itemLeftPos = -ScrollX() + (imgWidth + imgPadSide*2) * (n);
+            itemRightPos = -ScrollX() + (imgWidth + imgPadSide*2) * (n+1);
+
+            scrollWidthLimit = (imgWidth + imgPadSide*2) * (n+1) - (pageWidth - sideScrollZoneWidth*2);
+
             if(itemRightPos < 0){
-                /*右端が見える位置にない場合、定義しない*/
+                /*左にあり、右端が見えない場合、定義しない*/
+            }else if(mainRightPos <= itemLeftPos){
+                /*右にあり、左端が見えない場合、それ以降も含め定義しない*/
+                break;
             }else{
+                if(showItemNumberFirst < 0){
+                    showItemNumberFirst = n;
+                }
+                showItemNumberLast = n;
+
                 /*記事全体のdiv*/
                 dest += "<div style = \"\
                     position: absolute;\
@@ -144,11 +192,11 @@ function DrawSpecialReport(resourceText)
                 rangeHeight += titleTextHeight + titlePadBottom;
                 }
 
-                if(data[3] == ""){
-                }else{
-                    dest += "<p>" + data[3] + "</p>";
-                }
                 if(data[2] == ""){
+                }else{
+                    dest += "<p>" + data[2] + "</p>";
+                }
+                if(data[3] == "" || data[4] == ""){
                 }else{
                     dest += "<div style = '\
                         position: relative;\
@@ -179,13 +227,14 @@ function DrawSpecialReport(resourceText)
                         '\
                         >"
                     dest += "No Image.";
-                    dest += "<img src = \"" + data[2] + "\" onError = 'this.style.display = \"none\"' alt = \"この特別報のサムネイル画像\" width = '100%%' height = '100%' style = '\
+                    dest += "<img src = \"" + data[2] + "\" onError = 'this.style.opacity = 0;' alt = \"\" width = '100%%' height = '100%' style = '\
                         display: block;\
                         position: absolute;\
                         top: 0;\
                         left: 0;\
                         width: " + imgWidth + "px;\
                         height: " + imgHeight + "px;\
+                        text-color: rgba(0, 0, 0, 0);\
                     '></a></div>";
                 }
                 if(data[0] == ""){
@@ -202,24 +251,25 @@ function DrawSpecialReport(resourceText)
                     '>" + data[0] + "</div>";
                     rangeHeight += dateFontSize;
                 }
-                // dest += "<br><br>";
+                const itemPadBottom = 10;/*px*/
+                    rangeHeight += itemPadBottom;
+                    // dest += "<br><br>";
                 dest += "</div>";
 
                 for(j = 0; j < dataLength; j++){
                     data[j] = "";
                 }
-                iStart = i+1;
-                j = 0;
-                n++;
-                if(mainRightPos <= itemLeftPos){
-                    break;
+                
+                if(rangeHeightMax < rangeHeight){
+                    rangeHeightMax = rangeHeight;
+                    /*現在、全て280のはず*/
                 }
-            }
-
-            if(rangeHeightMax < rangeHeight){
-                rangeHeightMax = rangeHeight;
                 rangeHeight = 0;
             }
+
+            iStart = i+1;
+            j = 0;
+            n++;
         }
     }
     dest += "</div>";
@@ -235,15 +285,34 @@ function DrawSpecialReport(resourceText)
     ' id = 'rangeB_specialReport_rightRange'></div>";
 
     dest += "</div>";
+    const showItemNumberHeight = 10;/*px*/
+    dest += "<div style = '\
+        position: absolute;\
+        left: 0;\
+        top: " + rangeHeightMax + "px;\
+        width: " + pageWidth + "px;\
+        height: " + showItemNumberHeight + "px;\
+        '>\
+        (" + showItemNumberFirst + " ~ " + showItemNumberLast + "件目)\
+    </div>";
+
     var cid = document.getElementById(contentIDSave);
     cid.style.height = "" + rangeHeightMax + "px";
     cid.innerHTML = dest;
 
     ReDraw("allRange");
+    var mouseupEvent = new Event('mouseup');
     var leftZone = document.getElementById("rangeB_specialReport_leftRange");
-    leftZone.addEventListener('mouseover', () => {ScrollX(-1);DrawSpecialReport(resourceText);});
     var rightZone = document.getElementById("rangeB_specialReport_rightRange");
-    rightZone.addEventListener('mouseover', () => {ScrollX(1);DrawSpecialReport(resourceText);});
+
+    rightZone.addEventListener('mousedown', () => {IntervalScroll('main_R', () => {leftZone.dispatchEvent(mouseupEvent);ScrollX(1);DrawSpecialReport(resourceText);})});
+    rightZone.addEventListener('mouseout', () => {IntervalScroll('main_R', () => {ScrollX();DrawSpecialReport(resourceText);}, true)});
+    rightZone.addEventListener('mouseup', () => {IntervalScroll('main_R', () => {ScrollX();DrawSpecialReport(resourceText);}, true)});
+
+    leftZone.addEventListener('mousedown', () => {IntervalScroll('main_L', () => {rightZone.dispatchEvent(mouseupEvent);ScrollX(-1);DrawSpecialReport(resourceText);});});
+    leftZone.addEventListener('mouseout', () => {IntervalScroll('main_L', () => {ScrollX();DrawSpecialReport(resourceText);}, true);});
+    leftZone.addEventListener('mouseup', () => {IntervalScroll('main_L', () => {ScrollX();DrawSpecialReport(resourceText);}, true);});
+    
 };
 
 /*ファイル読み込ませ、Drawを呼び出させる*/
