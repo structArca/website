@@ -205,7 +205,7 @@ function DrawSpecialReport(resourceText)
                         width: " + imgWidth + "px;\
                         height: " + imgHeight + "px;\
                         fontsize: 0;\
-                    '><a href = '" + (data[3] == "" ? "" : data[3]) + "' target = '" + data[1] + "' ";
+                    '><a href = '" + (data[3] == "" ? "#" : data[3]) + "' target = '" + data[1] + "' ";
                     rangeHeight += imgHeight;
                     const No_Image_fontSize = 25;/*px*/
                     dest += "style = '\
@@ -225,10 +225,10 @@ function DrawSpecialReport(resourceText)
                         onmouseout = '\
                             this.style.opacity = \"100%\";'\
                         '\
-                        >"
+                        >";
                     dest += "No Image.";
-                    if(data[4] != ""){
-                        dest += "<img src = \"" + data[4] + "\" onError = 'this.style.opacity = 0;' alt = \"\" width = '100%%' height = '100%' style = '\
+                    if(data[1] != ""){
+                        dest += "<img src = \"" + data[4] + "\" onError = 'this.style.display = \"none\";' alt = \"\" width = '100%%' height = '100%' style = '\
                             display: block;\
                             position: absolute;\
                             top: 0;\
