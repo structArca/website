@@ -63,7 +63,7 @@ function DrawSpecialReport(resourceText)
         return;
     }
 
-    let dataLength = 5;
+    const dataLength = 5;
     let data = Array(dataLength);
     for(j = 0; j < dataLength; j++){
         data[j] = "";
@@ -152,7 +152,6 @@ function DrawSpecialReport(resourceText)
                 /*左にあり、右端が見えない場合、定義しない*/
             }else if(mainRightPos <= itemLeftPos){
                 /*右にあり、左端が見えない場合、それ以降も含め定義しない*/
-                break;
             }else{
                 if(showItemNumberFirst < 0){
                     showItemNumberFirst = n;
@@ -223,8 +222,8 @@ function DrawSpecialReport(resourceText)
                         '\
                         >";
                     dest += "No Image.";
-                    if(data[1] != ""){
-                        dest += "<img src = \"" + data[4] + "\" onError = 'this.style.display = \"none\";' alt = \"\" width = '100%%' height = '100%' style = '\
+                    if(data[4] != ""){
+                        dest += "<img src = \"" + data[4] + "\" onError = 'this.style.opacity = \"none\";' alt = \"\" width = '100%%' height = '100%' style = '\
                             display: block;\
                             position: absolute;\
                             top: 0;\
@@ -235,10 +234,7 @@ function DrawSpecialReport(resourceText)
                     }
                     dest += "</a></div>";
                 }
-                if(data[2] == ""){
-                }else{
-                    dest += "<p>" + data[2] + "</p>";
-                }
+                
                 if(data[0] == ""){
                 }else{
                     const dateFontSize = 10;/*px*/
@@ -253,20 +249,27 @@ function DrawSpecialReport(resourceText)
                     '>" + data[0] + "</div>";
                     rangeHeight += dateFontSize;
                 }
+
+                if(data[2] == ""){
+                }else{
+                    dest += "<p>" + data[2] + "</p>";
+                    rangeHeight += 30;
+                }
+
                 const itemPadBottom = 10;/*px*/
-                    rangeHeight += itemPadBottom;
+                rangeHeight += itemPadBottom;
                     // dest += "<br><br>";
                 dest += "</div>";
 
-                for(j = 0; j < dataLength; j++){
-                    data[j] = "";
-                }
-                
                 if(rangeHeightMax < rangeHeight){
                     rangeHeightMax = rangeHeight;
                     /*現在、全て280のはず*/
                 }
                 rangeHeight = 0;
+            }
+
+            for(j = 0; j < dataLength; j++){
+                data[j] = "";
             }
 
             iStart = i+1;
