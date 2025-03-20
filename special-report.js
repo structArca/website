@@ -194,6 +194,7 @@ function DrawSpecialReport(resourceText)
                 if(data[3] == "" && data[4] == ""){
                 }else{
                     dest += "<div style = '\
+                        display: block;\
                         position: relative;\
                         margin: 0;\
                         padding: 0;\
@@ -239,9 +240,9 @@ function DrawSpecialReport(resourceText)
                 }else{
                     const dateFontSize = 10;/*px*/
                     dest += "<div style = '\
+                    display: block;\
                     position: relative;\
                     margin: 0;\
-                    padding: 0;\
                     font-size: " + dateFontSize + "px;\
                     overflow: hidden;\
                     text-align: right;\
@@ -252,8 +253,17 @@ function DrawSpecialReport(resourceText)
 
                 if(data[2] == ""){
                 }else{
-                    dest += "<p>" + data[2] + "</p>";
-                    rangeHeight += 30;
+                    const explainFontSize = 20;
+                    const explainHeight = 80;
+                    dest += "<p style = '\
+                    display: block;\
+                    position: absolute: \
+                    margin: 0;\
+                    padding: 0;\
+                    height: " + explainHeight + "px:\
+                    font-size: " + explainFontSize + "px;\
+                    '>" + data[2] + "</p>";
+                    rangeHeight += explainHeight;
                 }
 
                 const itemPadBottom = 10;/*px*/
